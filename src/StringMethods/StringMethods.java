@@ -113,21 +113,36 @@ public class StringMethods {
 	// Call Utitilities.encrypt to encrypt String s
 	public static String encrypt(String s, char key) {
 		byte[] sByte = s.getBytes();
-		byte keyByte = (byte)key;
-		return Utilities.encrypt(sByte,keyByte);
+		byte keyByte = (byte) key;
+		return Utilities.encrypt(sByte, keyByte);
 	}
 
 	// Call Utilities.decrypt to decrypt the cyphertext
 	public static String decrypt(String s, char key) {
-		byte keyByte = (byte)key;
-		return Utilities.decrypt(s,keyByte);
+		byte keyByte = (byte) key;
+		return Utilities.decrypt(s, keyByte);
 	}
 
 	// Return the number of words in String s that end with String substring
 	// You can assume there are no punctuation marks between words
 	public static int wordsEndsWithSubstring(String s, String substring) {
 		int total = 0;
-		
+		int subLength = substring.length();
+		String tempSubstring = null;
+
+		for (int i = 0; i < s.length(); i++) {
+			if (s.charAt(i) == ' ') {
+				if (i <= substring.length() + 1) {
+					tempSubstring = "";
+				} else {
+					tempSubstring = s.substring(i - subLength, i);
+				}
+				if (substring.contentEquals(tempSubstring)) {
+					total++;
+				}
+			}
+		}
+
 		return total;
 	}
 
@@ -135,14 +150,33 @@ public class StringMethods {
 	// of String substring and the final occurrence
 	// You can assume that substring will appear at least twice
 	public static int distance(String s, String substring) {
-		return 0;
+		int first = s.indexOf(substring) + (substring.length());
+		int last = s.lastIndexOf(substring);
+		int distance = last - first;
+		
+		return distance;
 	}
 
 	// Return true if String s is a palindrome
 	// palindromes are words or phrases are read the same forward as backward.
 	// HINT: ignore/remove all punctuation and spaces in the String
 	public static boolean palindrome(String s) {
-		return true;
+		String reversed = "";
+		s = s.toLowerCase();
+		s = s.replaceAll(" ", "");
+		s = s.replaceAll(",", "");
+		
+		for (int i = s.length()-1; i > -1; i--) {
+			reversed = reversed + s.charAt(i);
+			System.out.println(reversed);
+		}
+		
+		if(s.contentEquals(reversed)) {
+			return true;
+		} else {
+			return false;
+		}
+
 	}
 
 }
